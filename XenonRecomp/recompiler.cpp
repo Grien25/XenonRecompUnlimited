@@ -3162,6 +3162,8 @@ bool Recompiler::Recompile(
                 v(insn.operands[1]), i, v(insn.operands[2]), i);
         break;
 
+    case PPC_INST_VRLIMI128: { constexpr size_t shuffles[] = { _MM_SHUFFLE(3, 2, 1, 0), _MM_SHUFFLE(2, 1, 0, 3), _MM_SHUFFLE(1, 0, 3, 2), _MM_SHUFFLE(0, 3, 2, 1) }; println("\t_mm_store_ps({}.f32, _mm_blend_ps(_mm_load_ps({}.f32), _mm_permute_ps(_mm_load_ps({}.f32), {}), {}));", v(insn.operands[0]), v(insn.operands[0]), v(insn.operands[1]), shuffles[insn.operands[3]], insn.operands[2]); break; }
+
     case PPC_INST_VSPLTISH:
         println("\t_mm_store_si128((__m128i*){}.s16, _mm_set1_epi16(short({})));",
             v(insn.operands[0]), int16_t(insn.operands[1]));
