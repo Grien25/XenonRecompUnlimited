@@ -255,6 +255,9 @@ void Recompiler::Analyse()
     }
 
     std::sort(functions.begin(), functions.end(), [](auto& lhs, auto& rhs) { return lhs.base < rhs.base; });
+    functions.erase(std::unique(functions.begin(), functions.end(),
+        [](auto& lhs, auto& rhs) { return lhs.base == rhs.base; }),
+        functions.end());
 }
 
 bool Recompiler::Recompile(
